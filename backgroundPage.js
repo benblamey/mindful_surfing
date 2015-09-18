@@ -25,10 +25,17 @@ chrome.runtime.onStartup.addListener(function() {
 });
 
 
+var white_list = [
+	'mubi.com',
+	'netflix.com',
+	'channel4.com',
+];
+
+
 function updateActive() {
 	console.log('updateActie()');
 	chrome.windows.getAll({populate: true}, function(windows) {
-		//console.log(windows);
+		console.log(windows);
 		for (i = 0; i < windows.length; i++) {
 			var window = windows[i];
 			console.log('window');
@@ -38,9 +45,20 @@ function updateActive() {
 			//console.log(tabs);
 			for (j = 0; j < tabs.length; j++) {
 				tab = tabs[j];
+				if (!tab.active) {
+					continue;
+				}
 				console.log(tab.url);
 				// if url matches white-list -- turn "actie off"
 				// simple substring match
+				for (k = 0; k < white_list.length; k++) {
+					whiteUrl = white_list[k];
+					if (tab.url.indexOf(whiteUrl) > -1 ) {
+						active = false;
+						console.log("White List Match Found!");
+						break;
+					}
+				}
 			}
 		}
 	});

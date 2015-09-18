@@ -15,6 +15,7 @@
 	"notifications",
 	"windows",
 	"tabs",
+	"activeTab",
     "https://ajax.googleapis.com/"
   ],
   
