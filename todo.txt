@@ -1,0 +1,10 @@
+﻿
+add an options page
+
+add realistic default timeouts
+	debug option to switch back to debug durations
+	
+icon / branding
+
+license
+

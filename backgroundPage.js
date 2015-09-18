@@ -1,11 +1,22 @@
-// Tip:
-// Settings > On startup > "continue where you left off"
+
 
 console.log('backgroundPage.js loaded.');
 
 active = true;
 
+
+var white_list = [
+	'mubi.com',
+	'netflix.com',
+	'channel4.com',
+];
+
+var startupTime;
+
 chrome.runtime.onStartup.addListener(function() {
+	
+	startupTime = new Date();
+	
 	console.log('hi!');
 	
 	chrome.alarms.create('first alarm', {
@@ -22,14 +33,13 @@ chrome.runtime.onStartup.addListener(function() {
 		delayInMinutes: 0.3,
 	}
 	);	
+	
+	chrome.alarms.create('regular', {
+		delayInMinutes: 0.5,
+		periodInMinutes: 10,
+	}
+	);	
 });
-
-
-var white_list = [
-	'mubi.com',
-	'netflix.com',
-	'channel4.com',
-];
 
 
 function updateActive() {
@@ -102,7 +112,31 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 			
 		});
 	}
-	
+	if (alarm.name === 'regular') {
+		msSinceStartup = (new Date()) - startupTime;
+		console.log("startup time:");
+		console.log(startupTime);
+		console.log("msSinceStartup:");
+		console.log(msSinceStartup);
+		
+		
+		var days = Math.floor(msSinceStartup / (1000 * 60 * 60 * 24));
+		msSinceStartup -=  days * (1000 * 60 * 60 * 24);
+		var hours = Math.floor(msSinceStartup / (1000 * 60 * 60));
+		msSinceStartup -= hours * (1000 * 60 * 60);
+		var mins = Math.floor(msSinceStartup / (1000 * 60));
+		msSinceStartup -= mins * (1000 * 60);
+		var seconds = Math.floor(msSinceStartup / (1000));
+		msSinceStartup -= seconds * (1000);
+		durationString = days + " days, " + hours + " hours, " + mins + " minutes, " + seconds + " seconds";
+		
+		chrome.notifications.create('foo', {
+			iconUrl: 'icon.png',
+			type: 'basic',
+			title: 'Mindfulness',
+			message: 'you have been browsing for ' + durationString + "\n\n" + "Time for a break?",
+		});
+	}
 	
 })
 
