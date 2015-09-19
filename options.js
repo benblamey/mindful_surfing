@@ -51,7 +51,7 @@ function save_options() {
 	shutdown_enabled: input_shutdown_enabled_checkbox.checked,
     shutdown_minutes: readNumber2(input_shutdown_minutes_number, 'shutdown_minutes'),
 	
-	whitelist: input_whitelist_textarea.value.split('\n')
+	whitelist: parse_whitelist()
   };
   console.log("saving:");
   console.log(options);
@@ -111,13 +111,26 @@ function apply_options(options) {
 	input_shutdown_enabled_checkbox.checked  = options.shutdown_enabled;
     readNumber("shutdown_minutes", input_shutdown_minutes_number);
 	
-	// TODO
-	//whitelist: input_whitelist_textarea.value.split('\n')	  
+	input_whitelist_textarea.value = options.whitelist.join('\n');
 	
 	// TODO:
 	// restrt timers
 }
 
+function parse_whitelist() {
+	var raw_whitelist = input_whitelist_textarea.value.split('\n');
+	console.log('parse_whitelist(), raw_whitelist:');
+	console.log(raw_whitelist);
+	var whitelist = [];
+	for (i = 0; i < raw_whitelist.length; i++) {
+		whiteUrl = raw_whitelist[i];
+		whiteUrl = whiteUrl.trim();
+		if (whiteUrl.length > 0) {
+			whitelist.push(whiteUrl)
+		}
+	}
+	return whitelist;
+}
 
 
 /*
