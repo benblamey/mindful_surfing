@@ -8,3 +8,6 @@ icon / branding
 
 license
 
+days / hours matrix for enabling
+
+reset to default options

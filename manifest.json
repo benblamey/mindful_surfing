@@ -1,23 +1,26 @@
 {
   "manifest_version": 2,
-
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  
+  "name": "Mindful Surfing",
+  "description": "Helps you avoid mindlessly surfing the web for extended periods of time.",
   "version": "1.0",
 
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+  
   "permissions": [
     "activeTab",
 	"alarms",
 	"notifications",
 	"windows",
-	"tabs",
 	"activeTab",
-    "https://ajax.googleapis.com/"
+	"tabs",
+	"storage"
   ],
+  
+  "options_page": "options.html",
   
   "background": {
     "scripts": ["backgroundPage.js"],

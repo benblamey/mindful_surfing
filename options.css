@@ -1,0 +1,10 @@
+﻿.option_group{
+	margin-top: 1.5em;
+	padding: 1px 10px 1px 10px;
+	border-style: ridge;
+    border-width: medium;
+}
+
+p.warning {
+	color: red;
+}

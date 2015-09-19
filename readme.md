@@ -3,6 +3,8 @@
 
 A Chrome browser extension to help avoid wasting excessive time -- or retain "mindfulness" when browsing.
 
+Unlike many other extensions which block time on specific 'distracting' sites, this extension instead focuses on the time the browser has been running.
+
 Two features, each of which can be enabled independently:
 
 1. An absolute limit on the duration of the browser session, after this time, the browser will be closed. Notifications warn of  pending shutdown.
