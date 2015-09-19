@@ -1,7 +1,6 @@
-﻿
+﻿github
 
-add realistic default timeouts
-	debug option to switch back to debug durations
+debug option to switch back to debug durations
 	
 icon / branding
 
@@ -10,3 +9,24 @@ license
 days / hours matrix for enabling
 
 reset to default options button
+
+tabs / spaces
+
+refactor: "interval" > "period"
+
+trigger timer reset
+
+check that all chrome API methods are being used asynchronously/properly
+
+use local storage
+
+get rid of alarm names
+
+do alarm names need to be unique. 
+
+compute time remaining based on limit and startup time.
+
+
+publish to store
+
+random messages

@@ -1,9 +1,3 @@
-console.log('backgroundPage.js loaded.');
-
-active = true;
-
-var canuseeme = "horray!";
-
 var white_list = [
 	'mubi.com',
 	'netflix.com',
@@ -12,85 +6,79 @@ var white_list = [
 
 var startupTime;
 
-chrome.runtime.onStartup.addListener(function() {
+// This event fires when Chrome starts.
+chrome.runtime.onStartup.addListener(init());
 
-	init();
+// This event fires when the extension is installed or reloaded.
+chrome.runtime.onInstalled.addListener(init)
 
-});
+// This event fires when settings are saved.
+chrome.storage.onChanged.addListener(init)
+
+chrome.alarms.onAlarm.addListener(alarm_fired);
 
 function init() {
+	console.log('init()');
+	
 	console.log("core:")
 	console.log(core);
 	
 	startupTime = new Date();
 	
-	console.log('hi!');
-	
-	chrome.alarms.create('first alarm', {
-		delayInMinutes: 0.1,
-	}
-	);
-	
-	chrome.alarms.create('second alarm', {
-		delayInMinutes: 0.2,
-	}
-	);
-	
-	chrome.alarms.create('final alarm', {
-		delayInMinutes: 0.3,
-	}
-	);	
-	
-	chrome.alarms.create('regular', {
-		delayInMinutes: 0.5,
-		periodInMinutes: 10,
-	}
-	);	
-}
+	chrome.storage.sync.get(default_options, function(options) {
+		console.log('loaded options');
+		console.log(options);
 
+	/*	var default_options = {
+		interval_enabled: true,
+		interval_initial_minutes: 30,
+		interval_repeat_minutes: 10,
 
-
-
-function updateActive() {
-	console.log('updateActie()');
-	chrome.windows.getAll({populate: true}, function(windows) {
-		console.log(windows);
-		for (i = 0; i < windows.length; i++) {
-			var window = windows[i];
-			console.log('window');
-			//console.log(window);
-			var tabs = window.tabs;
-			console.log('tabs');
-			//console.log(tabs);
-			for (j = 0; j < tabs.length; j++) {
-				tab = tabs[j];
-				if (!tab.active) {
-					continue;
-				}
-				console.log(tab.url);
-				// if url matches white-list -- turn "actie off"
-				// simple substring match
-				for (k = 0; k < white_list.length; k++) {
-					whiteUrl = white_list[k];
-					if (tab.url.indexOf(whiteUrl) > -1 ) {
-						active = false;
-						console.log("White List Match Found!");
-						break;
-					}
-				}
+		shutdown_enabled: false,
+		shutdown_minutes: 120,
+		
+		whitelist: []
+	};*/
+		
+		
+		chrome.alarms.clearAll(function() {
+			
+			if (options.interval_enabled) {
+				console.log('enabling interval alarm');
+				chrome.alarms.create('regular', {
+						delayInMinutes: options.interval_initial_minutes,
+						periodInMinutes: options.interval_repeat_minutes,
+				});		
 			}
-		}
+			
+			if (options.shutdown_enabled) {
+				console.log('enabling shutdown alarms');
+				chrome.alarms.create('first alarm', {
+					delayInMinutes: options.shutdown_minutes - 10,
+				});
+				chrome.alarms.create('first1 alarm', {
+					delayInMinutes: options.shutdown_minutes - 1,
+				});
+				chrome.alarms.create('second alarm', {
+					delayInMinutes: options.shutdown_minutes - 0.6, // 10 secs
+				});
+				chrome.alarms.create('final alarm', {
+					delayInMinutes: options.shutdown_minutes,
+				});	
+			}
+		
+		});
+		
 	});
 }
 
-
-chrome.alarms.onAlarm.addListener(function(alarm) {
+function alarm_fired(alarm) {
 	
 	console.log("alarm fired:");
 	console.log(alarm);
-	
+
+	// TODO: should return a boolean
 	updateActive();
-	
 	if (!active) {
 		return;
 	}
@@ -147,5 +135,37 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 		});
 	}
 	
-})
+});
 
+// TODO: should return a boolean
+function updateActive() {
+	console.log('updateActie()');
+	chrome.windows.getAll({populate: true}, function(windows) {
+		console.log(windows);
+		for (i = 0; i < windows.length; i++) {
+			var window = windows[i];
+			console.log('window');
+			//console.log(window);
+			var tabs = window.tabs;
+			console.log('tabs');
+			//console.log(tabs);
+			for (j = 0; j < tabs.length; j++) {
+				tab = tabs[j];
+				if (!tab.active) {
+					continue;
+				}
+				console.log(tab.url);
+				// if url matches white-list -- turn "actie off"
+				// simple substring match
+				for (k = 0; k < white_list.length; k++) {
+					whiteUrl = white_list[k];
+					if (tab.url.indexOf(whiteUrl) > -1 ) {
+						active = false;
+						console.log("White List Match Found!");
+						break;
+					}
+				}
+			}
+		}
+	});
+}

@@ -38,7 +38,6 @@ function update_ui_fields_enabled() {
 	input_shutdown_minutes_number.disabled = !input_shutdown_enabled_checkbox.checked;
 }
 
-
 function apply_click() {
 	save_options();
 }
@@ -110,9 +109,6 @@ function write_options_to_ui(options) {
     write_number_to_ui("shutdown_minutes", input_shutdown_minutes_number);
 	
 	input_whitelist_textarea.value = options.whitelist.join('\n');
-	
-	// TODO:
-	// restrt timers
 }
 
 function fetch_whitelist_from_ui() {
