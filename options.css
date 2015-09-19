@@ -8,3 +8,9 @@
 p.warning {
 	color: red;
 }
+
+#apply_button {
+	margin-left: 0.1em;
+	margin-top: 1.1em;
+	padding: 0.2em 0.9em 0.2em 0.9em;
+}
