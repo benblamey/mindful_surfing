@@ -1,12 +1,30 @@
-﻿var input_interval_enabled_checkbox = document.getElementsByName("interval_enabled")[0];
-var input_interval_initial_minutes_number = document.getElementsByName("interval_initial")[0];
-var input_interval_repeat_minutes_number = document.getElementsByName("interval_repeat")[0];
+﻿var input_interval_enabled_checkbox;
+var input_interval_initial_minutes_number;
+var input_interval_repeat_minutes_number;
 
-var input_shutdown_enabled_checkbox = document.getElementsByName("shutdown_enabled")[0];
-var input_shutdown_minutes_number = document.getElementsByName("shutdown_minutes")[0];
+var input_shutdown_enabled_checkbox;
+var input_shutdown_minutes_number;
 
-var input_whitelist_textarea = document.getElementsByName("whitelist")[0];
+var input_whitelist_textarea;
+var apply_button;
 
+document.addEventListener("DOMContentLoaded", function(event) { 
+	input_interval_enabled_checkbox = document.getElementsByName("interval_enabled")[0];
+	input_interval_initial_minutes_number = document.getElementsByName("interval_initial")[0];
+	input_interval_repeat_minutes_number = document.getElementsByName("interval_repeat")[0];
+
+	input_shutdown_enabled_checkbox = document.getElementsByName("shutdown_enabled")[0];
+	input_shutdown_minutes_number = document.getElementsByName("shutdown_minutes")[0];
+
+	input_whitelist_textarea = document.getElementsByName("whitelist")[0];
+	
+	// Click handler cannot be set in markup because of CSP restrictions.
+	// See: https://developer.chrome.com/extensions/contentSecurityPolicy
+	apply_button = document.getElementById("apply_button");
+	apply_button.addEventListener('click', apply_click);
+	
+	load_options();
+});
 
 var default_options = {
     interval_enabled: true,
@@ -19,22 +37,42 @@ var default_options = {
 	whitelist: []
 };
 
-function save_options() {
+function apply_click() {
+	save_options();
+}
 
+function save_options() {
+  console.log('sae_options() called.');
   var options = {
     interval_enabled: input_interval_enabled_checkbox.checked,
-    interval_initial_minutes: input_interval_initial_minutes_number.value,
-	interval_repeat_minutes: input_interval_repeat_minutes_number.value,
+    interval_initial_minutes: readNumber2(input_interval_initial_minutes_number, 'interval_initial_minutes'),
+	interval_repeat_minutes: readNumber2(input_interval_repeat_minutes_number, 'interval_repeat_minutes'),
 
-	shutdown_enabled: input_interval_enabled_checkbox.checked,
-    shutdown_minutes: input_shutdown_minutes_number.value,
+	shutdown_enabled: input_shutdown_enabled_checkbox.checked,
+    shutdown_minutes: readNumber2(input_shutdown_minutes_number, 'shutdown_minutes'),
 	
 	whitelist: input_whitelist_textarea.value.split('\n')
   };
-  console.log("saing:");
+  console.log("saving:");
   console.log(options);
 	
   chrome.storage.sync.set(options);
+}
+
+function readNumber2(field, property) {
+	console.log("readNumber() called, field:");
+	console.log(field);
+	console.log('property:');
+	console.log(property);
+	
+	var min = field.min;
+	var max = field.max;
+	var number = field.value;
+	number = Math.floor(number);
+	if (!isFinite(number) || number < min || number > max) {
+		number = default_options[property];
+	}
+	return number;
 }
 
 function load_options() {
