@@ -11,6 +11,4 @@ days / hours matrix for enabling
 
 reset to default options button
 
-margins for apply button
-
 refactor readnumber(2) functions

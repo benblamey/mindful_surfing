@@ -1,9 +1,8 @@
-
-
 console.log('backgroundPage.js loaded.');
 
 active = true;
 
+var canuseeme = "horray!";
 
 var white_list = [
 	'mubi.com',
@@ -14,6 +13,14 @@ var white_list = [
 var startupTime;
 
 chrome.runtime.onStartup.addListener(function() {
+
+	init();
+
+});
+
+function init() {
+	console.log("core:")
+	console.log(core);
 	
 	startupTime = new Date();
 	
@@ -39,7 +46,9 @@ chrome.runtime.onStartup.addListener(function() {
 		periodInMinutes: 10,
 	}
 	);	
-});
+}
+
+
 
 
 function updateActive() {
