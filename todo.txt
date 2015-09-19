@@ -10,5 +10,3 @@ license
 days / hours matrix for enabling
 
 reset to default options button
-
-refactor readnumber(2) functions
