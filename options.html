@@ -15,13 +15,13 @@ A Chrome browser extension to help avoid wasting excessive time - or retain "min
 </p>
 
 <div class="option_group">
-	<p><input type="checkbox" name="interval_enabled" value="interval_enabled" onClick="checkbox_click"/><label for="interval_enabled">Enable Interval Reminder</label></p>
+	<p><input type="checkbox" name="interval_enabled" value="interval_enabled"/><label for="interval_enabled">Enable Interval Reminder</label></p>
 	<p>Show a notification once when the browser has been running for <input name="interval_initial" type="number" min="1" max="9999"/> minutes.</p>
 	<p>And every <input name="interval_repeat" type="number" min="1" max="9999"/> minutes thereafter.</p>
 </div>
 
 <div class="option_group">
-	<p><input type="checkbox" name="shutdown_enabled" value="shutdown_enabled" onClick="checkbox_click"/><label for="shutdown_enabled">Enable Browser Shutdown</label></p>
+	<p><input type="checkbox" name="shutdown_enabled" value="shutdown_enabled"/><label for="shutdown_enabled">Enable Browser Shutdown</label></p>
 	<p>Shutdown the browser after <input name="shutdown_minutes" type="number" min="5" max="9999"/> minutes.</p>
 	
 	<p class="warning">Warning - after initial warning notifications, there is no confirmation for the browser close!</p>

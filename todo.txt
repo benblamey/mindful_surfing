@@ -1,5 +1,4 @@
 ﻿
-add an options page
 
 add realistic default timeouts
 	debug option to switch back to debug durations
@@ -10,4 +9,8 @@ license
 
 days / hours matrix for enabling
 
-reset to default options
+reset to default options button
+
+margins for apply button
+
+refactor readnumber(2) functions

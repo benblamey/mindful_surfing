@@ -22,9 +22,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// See: https://developer.chrome.com/extensions/contentSecurityPolicy
 	apply_button = document.getElementById("apply_button");
 	apply_button.addEventListener('click', apply_click);
+	input_interval_enabled_checkbox.addEventListener('click', updateFieldsEnabled);
+	input_shutdown_enabled_checkbox.addEventListener('click', updateFieldsEnabled);
 	
 	load_options();
 });
+
+function updateFieldsEnabled() {
+	input_interval_initial_minutes_number.disabled = !input_interval_enabled_checkbox.checked;
+	input_interval_repeat_minutes_number.disabled = !input_interval_enabled_checkbox.checked;
+	
+	input_shutdown_minutes_number.disabled = !input_shutdown_enabled_checkbox.checked;
+}
 
 var default_options = {
     interval_enabled: true,
