@@ -15,8 +15,8 @@ All the time limits can be configured, and a URL white-list is supported - when 
 Tip
 ---
 If you decide to enable the feature to automatically close the browser, you might wish to enable persistence of the tabs:
-	Settings > On startup > "continue where you left off"
-	
+    Settings > On startup > "continue where you left off"
+    
 Note
 ----
 This extension is supposed to be annoying -- the point of it is to distract you from mindless surfing!

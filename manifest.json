@@ -7,12 +7,12 @@
   
   "permissions": [
     "activeTab",
-	"alarms",
-	"notifications",
-	"windows",
-	"activeTab",
-	"tabs",
-	"storage"
+    "alarms",
+    "notifications",
+    "windows",
+    "activeTab",
+    "tabs",
+    "storage"
   ],
   
   "options_page": "options.html",

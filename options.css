@@ -1,16 +1,16 @@
 ﻿.option_group{
-	margin-top: 1.1em;
-	padding: 0em 0.7em 0em 0.7em;
-	border-style: ridge;
+    margin-top: 1.1em;
+    padding: 0em 0.7em 0em 0.7em;
+    border-style: ridge;
     border-width: medium;
 }
 
 p.warning {
-	color: red;
+    color: red;
 }
 
 #apply_button {
-	margin-left: 0.1em;
-	margin-top: 1.1em;
-	padding: 0.2em 0.9em 0.2em 0.9em;
+    margin-left: 0.1em;
+    margin-top: 1.1em;
+    padding: 0.2em 0.9em 0.2em 0.9em;
 }
