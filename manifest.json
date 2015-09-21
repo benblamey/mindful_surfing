@@ -23,7 +23,7 @@
   "options_page": "options.html",
   
   "background": {
-    "scripts": ["backgroundPage.js", "core.js"],
+    "scripts": ["core.js", "backgroundPage.js"],
     "persistent": true
   }
   

@@ -30,3 +30,5 @@ compute time remaining based on limit and startup time.
 publish to store
 
 random messages
+
+remove icon on toolbar
