@@ -32,3 +32,5 @@ publish to store
 random messages
 
 remove icon on toolbar
+
+refactor alarm info to use prototype

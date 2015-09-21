@@ -4,7 +4,9 @@ var white_list = [
 	'channel4.com',
 ];
 
-var startupTime;
+var startupTime, options;
+
+
 
 console.log("-- STARTING EXTENSION --");
 
@@ -27,23 +29,24 @@ function init() {
 	
 	startupTime = new Date();
 	
-	chrome.storage.sync.get(default_options, function(options) {
-		console.log('loaded options');
-		console.log(options);
+	chrome.alarms.clearAll(function() {
+	
+		chrome.storage.sync.get(default_options, function(loaded_options) {
+			console.log('loaded options');
+			options = loaded_options;
+			console.log(options);
+			
 
-	/*	var default_options = {
-		interval_enabled: true,
-		interval_initial_minutes: 30,
-		interval_repeat_minutes: 10,
+		/*	var default_options = {
+			interval_enabled: true,
+			interval_initial_minutes: 30,
+			interval_repeat_minutes: 10,
 
-		shutdown_enabled: false,
-		shutdown_minutes: 120,
-		
-		whitelist: []
-	};*/
-		
-		
-		chrome.alarms.clearAll(function() {
+			shutdown_enabled: false,
+			shutdown_minutes: 120,
+			
+			whitelist: []
+		};*/
 			
 			if (options.interval_enabled) {
 				console.log('enabling interval alarm');
@@ -90,7 +93,7 @@ function alarm_fired(alarm) {
 				iconUrl: 'icon.png',
 				type: 'basic',
 				title: 'time running out',
-				message: '2 minutes til browser shutdown',
+				message: MSToString(timeToShutdown())+' until browser shutdown',
 			});
 		}
 		if (alarm.name === 'second alarm') {
@@ -98,7 +101,7 @@ function alarm_fired(alarm) {
 				iconUrl: 'icon.png',
 				type: 'basic',
 				title: 'time running out',
-				message: '1 minute til browser shutdown!',
+				message: MSToString(timeToShutdown())+' until browser shutdown!',
 			});
 		}
 		if (alarm.name === 'final alarm') {
@@ -128,7 +131,13 @@ function alarm_fired(alarm) {
 			});
 		}
 	});
-	
+}
+
+function timeToShutdown() {
+	var nowUnix = new Date().getTime();
+	var startupUnix = startupTime.getTime();
+	var timeToShutdown = (startupUnix + (options.shutdown_minutes * 60 * 1000)) - nowUnix;
+	return timeToShutdown;
 }
 
 function MSToString(msSinceStartup) {
