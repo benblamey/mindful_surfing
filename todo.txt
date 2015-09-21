@@ -1,36 +1,23 @@
 ﻿github
+publish to store
 
-debug option to switch back to debug durations
 	
 icon / branding
-
 license
-
-days / hours matrix for enabling
-
-reset to default options button
-
 tabs / spaces
-
-refactor: "interval" > "period"
-
-trigger timer reset
 
 check that all chrome API methods are being used asynchronously/properly
 
-use local storage
 
+NICE TO HAVE
+------------
 get rid of alarm names
-
-do alarm names need to be unique. 
-
-compute time remaining based on limit and startup time.
-
-
-publish to store
-
+do alarm names need to be unique? simplify
+shutdown should fire on an interval
+use local storage
+refactor: "interval" > "period"
+days / hours matrix for enabling
+reset to default options button
 random messages
-
-remove icon on toolbar
-
 refactor alarm info to use prototype
+debug option to switch back to debug durations

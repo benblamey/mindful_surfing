@@ -15,38 +15,30 @@ var default_options = {
 	whitelist: []
 };
 
-
-/*
-// Saves options to chrome.storage
-function save_options() {
-  var color  = options.document.getElementById('color').value;
-  var likesColor  = options.document.getElementById('like').checked;
-  chrome.storage.sync.set({
-    favoriteColor: color,
-    likesColor: likesColor
-  }, function() {
-    // Update status to let user know options were saved.
-    var status  = options.document.getElementById('status');
-    status.textContent  = options.'Options saved.';
-    setTimeout(function() {
-      status.textContent  = options.'';
-    }, 750);
-  });
+function MSToString(msSinceStartup) {
+	var durationString = "";
+	
+	var days = Math.floor(msSinceStartup / (1000 * 60 * 60 * 24));
+	msSinceStartup -=  days * (1000 * 60 * 60 * 24);
+	if (days > 0) {
+			durationString += days + " days, ";
+	}
+	
+	var hours = Math.floor(msSinceStartup / (1000 * 60 * 60));
+	msSinceStartup -= hours * (1000 * 60 * 60);
+	if (durationString != '' || hours > 0) {
+			durationString += hours + " hours, ";
+	}
+	
+	var mins = Math.floor(msSinceStartup / (1000 * 60));
+	msSinceStartup -= mins * (1000 * 60);
+	if (durationString != '' || mins > 0) {
+		durationString += mins + " mins, ";
+	}
+	
+	var seconds = Math.floor(msSinceStartup / (1000));
+	msSinceStartup -= seconds * (1000);
+	durationString += seconds + " seconds";
+	
+	return durationString;
 }
-
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-  // Use default value color  = options.'red' and likesColor  = options.true.
-  chrome.storage.sync.get({
-    favoriteColor: 'red',
-    likesColor: true
-  }, function(items) {
-    document.getElementById('color').value  = options.items.favoriteColor;
-    document.getElementById('like').checked  = options.items.likesColor;
-  });
-}
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
-*/

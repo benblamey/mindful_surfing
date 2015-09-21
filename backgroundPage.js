@@ -1,32 +1,15 @@
-var white_list = [
-	'mubi.com',
-	'netflix.com',
-	'channel4.com',
-];
-
 var startupTime, options;
-
-
 
 console.log("-- STARTING EXTENSION --");
 
-// This event fires when Chrome starts.
-chrome.runtime.onStartup.addListener(init);
-
-// This event fires when the extension is installed or reloaded.
-chrome.runtime.onInstalled.addListener(init)
-
-// This event fires when settings are saved.
-chrome.storage.onChanged.addListener(init)
+chrome.runtime.onStartup.addListener(init); // This event fires when Chrome starts.
+chrome.runtime.onInstalled.addListener(init); // This event fires when the extension is installed or reloaded.
+chrome.storage.onChanged.addListener(init); // This event fires when settings are saved.
 
 chrome.alarms.onAlarm.addListener(alarm_fired);
 
 function init() {
-	console.log('init()');
-	
-	console.log("core:")
-	console.log(core);
-	
+	console.log('init()');	
 	startupTime = new Date();
 	
 	chrome.alarms.clearAll(function() {
@@ -35,7 +18,6 @@ function init() {
 			console.log('loaded options');
 			options = loaded_options;
 			console.log(options);
-			
 
 		/*	var default_options = {
 			interval_enabled: true,
@@ -77,12 +59,12 @@ function init() {
 	});
 }
 
+// Handler used when any alarm fires.
 function alarm_fired(alarm) {
 	
 	console.log("alarm fired:");
 	console.log(alarm);
 
-	// TODO: should return a boolean
 	updateActive(function(active) {
 		if (!active) {
 			return;
@@ -133,6 +115,7 @@ function alarm_fired(alarm) {
 	});
 }
 
+// Computes the time until the next firing of the shutdown alarm.
 function timeToShutdown() {
 	var nowUnix = new Date().getTime();
 	var startupUnix = startupTime.getTime();
@@ -140,35 +123,6 @@ function timeToShutdown() {
 	return timeToShutdown;
 }
 
-function MSToString(msSinceStartup) {
-	var durationString = "";
-	
-	var days = Math.floor(msSinceStartup / (1000 * 60 * 60 * 24));
-	msSinceStartup -=  days * (1000 * 60 * 60 * 24);
-	if (days > 0) {
-			durationString += days + " days, ";
-	}
-	
-	var hours = Math.floor(msSinceStartup / (1000 * 60 * 60));
-	msSinceStartup -= hours * (1000 * 60 * 60);
-	if (durationString != '' || hours > 0) {
-			durationString += hours + " hours, ";
-	}
-	
-	var mins = Math.floor(msSinceStartup / (1000 * 60));
-	msSinceStartup -= mins * (1000 * 60);
-	if (durationString != '' || mins > 0) {
-		durationString += mins + " mins, ";
-	}
-	
-	var seconds = Math.floor(msSinceStartup / (1000));
-	msSinceStartup -= seconds * (1000);
-	durationString += seconds + " seconds";
-	
-	return durationString;
-}
-
-// TODO: should return a boolean
 function updateActive(callback) {
 	console.log('updateActie()');
 	var active = true;
@@ -189,8 +143,8 @@ function updateActive(callback) {
 				console.log(tab.url);
 				// if url matches white-list -- turn "actie off"
 				// simple substring match
-				for (k = 0; k < white_list.length; k++) {
-					whiteUrl = white_list[k];
+				for (k = 0; k < options.whitlist.length; k++) {
+					whiteUrl = options.whitlist[k];
 					if (tab.url.indexOf(whiteUrl) > -1 ) {
 						active = false;
 						console.log("White List Match Found!");
