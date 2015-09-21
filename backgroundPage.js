@@ -1,19 +1,15 @@
 var startupTime, options;
 
-console.log("-- STARTING EXTENSION --");
-
 chrome.runtime.onStartup.addListener(init); // This event fires when Chrome starts.
 chrome.runtime.onInstalled.addListener(init); // This event fires when the extension is installed or reloaded.
 chrome.storage.onChanged.addListener(init); // This event fires when settings are saved.
-
 chrome.alarms.onAlarm.addListener(alarm_fired);
 
 function init() {
 	console.log('init()');	
 	startupTime = new Date();
 	
-	chrome.alarms.clearAll(function() {
-	
+	chrome.alarms.clearAll(function() {	
 		chrome.storage.sync.get(default_options, function(loaded_options) {
 			console.log('loaded options');
 			options = loaded_options;
@@ -23,10 +19,8 @@ function init() {
 			interval_enabled: true,
 			interval_initial_minutes: 30,
 			interval_repeat_minutes: 10,
-
 			shutdown_enabled: false,
 			shutdown_minutes: 120,
-			
 			whitelist: []
 		};*/
 			
@@ -40,16 +34,17 @@ function init() {
 			
 			if (options.shutdown_enabled) {
 				console.log('enabling shutdown alarms');
-				chrome.alarms.create('first alarm', {
+				// Note that alarm names need to be unique.
+				chrome.alarms.create('shutdown_warning1', {
 					delayInMinutes: options.shutdown_minutes - 10,
 				});
-				chrome.alarms.create('first1 alarm', {
+				chrome.alarms.create('shutdown_warning2', {
 					delayInMinutes: options.shutdown_minutes - 1,
 				});
-				chrome.alarms.create('second alarm', {
+				chrome.alarms.create('shutdown_warning3', {
 					delayInMinutes: options.shutdown_minutes - 0.6, // 10 secs
 				});
-				chrome.alarms.create('final alarm', {
+				chrome.alarms.create('shutdown_now', {
 					delayInMinutes: options.shutdown_minutes,
 				});	
 			}
@@ -61,54 +56,33 @@ function init() {
 
 // Handler used when any alarm fires.
 function alarm_fired(alarm) {
-	
 	console.log("alarm fired:");
 	console.log(alarm);
 
-	updateActive(function(active) {
-		if (!active) {
-			return;
-		}
+	runCallbackIfActive(function() {
 		
-		if (alarm.name === 'first alarm') {
+		if (alarm.name.indexOf('shutdown_warning') > -1) {
 			chrome.notifications.create('foo', {
 				iconUrl: 'icon.png',
 				type: 'basic',
-				title: 'time running out',
-				message: MSToString(timeToShutdown())+' until browser shutdown',
+				title: 'Mindful Surfing',
+				message: 'Warning! ' + MSToString(timeToShutdown())+' until browser shutdown.',
 			});
-		}
-		if (alarm.name === 'second alarm') {
-			chrome.notifications.create('foo', {
-				iconUrl: 'icon.png',
-				type: 'basic',
-				title: 'time running out',
-				message: MSToString(timeToShutdown())+' until browser shutdown!',
-			});
-		}
-		if (alarm.name === 'final alarm') {
+		} else if (alarm.name === 'shutdown_now') {
 			chrome.windows.getAll(function(windows) {
 				console.log(windows);
 				for (i = 0; i < windows.length; i++) {
 					console.log('Closing window ' + windows[i].id + '...');
 					chrome.windows.remove(windows[i].id);
 				}
-				
 			});
-		}
-		if (alarm.name === 'regular') {
+		} else if (alarm.name === 'regular') {
 			msSinceStartup = (new Date()) - startupTime;
-			console.log("startup time:");
-			console.log(startupTime);
-			console.log("msSinceStartup:");
-			console.log(msSinceStartup);
-			
 			durationString = MSToString(msSinceStartup);
-			
-			chrome.notifications.create('foo', {
+			chrome.notifications.create('interval_notification', {
 				iconUrl: 'icon.png',
 				type: 'basic',
-				title: 'Mindfulness',
+				title: 'Mindful Surfing',
 				message: 'you have been browsing for ' + durationString + "\n\n" + "Time for a break?",
 			});
 		}
@@ -123,25 +97,21 @@ function timeToShutdown() {
 	return timeToShutdown;
 }
 
-function updateActive(callback) {
+// Checks the active tab of each window against the whitelist -- to compute whether the interval should run.
+function runCallbackIfActive(callbackIfActive) {
 	console.log('updateActie()');
 	var active = true;
 	chrome.windows.getAll({populate: true}, function(windows) {
 		console.log(windows);
 		for (i = 0; i < windows.length; i++) {
 			var window = windows[i];
-			console.log('window');
-			//console.log(window);
 			var tabs = window.tabs;
-			console.log('tabs');
-			//console.log(tabs);
 			for (j = 0; j < tabs.length; j++) {
 				tab = tabs[j];
 				if (!tab.active) {
 					continue;
 				}
 				console.log(tab.url);
-				// if url matches white-list -- turn "actie off"
 				// simple substring match
 				for (k = 0; k < options.whitlist.length; k++) {
 					whiteUrl = options.whitlist[k];
@@ -154,6 +124,10 @@ function updateActive(callback) {
 			}
 		}
 		
-		callback(active);
+		if (active) {
+			callback(callbackIfActive);
+		} else {
+			console.log('whitelist match -- not running callback');
+		}
 	});
 }

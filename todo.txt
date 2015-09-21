@@ -6,13 +6,12 @@ icon / branding
 license
 tabs / spaces
 
-check that all chrome API methods are being used asynchronously/properly
+
 
 
 NICE TO HAVE
 ------------
-get rid of alarm names
-do alarm names need to be unique? simplify
+double-check that all chrome API methods are being used asynchronously/properly
 shutdown should fire on an interval
 use local storage
 refactor: "interval" > "period"
