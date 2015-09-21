@@ -1,4 +1,4 @@
-﻿Mindful Browsing
+﻿Mindful Surfing
 ================
 
 A Chrome browser extension to help avoid wasting excessive time -- or retain "mindfulness" when browsing.
@@ -12,14 +12,13 @@ Two features, each of which can be enabled independently:
 
 All the time limits can be configured, and a URL white-list is supported - when the active tab matches the white-list, features are disabled.
 
-Tip
----
+Notes
+-----
 If you decide to enable the feature to automatically close the browser, you might wish to enable persistence of the tabs:
     Settings > On startup > "continue where you left off"
     
-Note
-----
 This extension is supposed to be annoying -- the point of it is to distract you from mindless surfing!
+
 
 
 Icon credit to: http://www.cliparthut.com/xmas-candle-clipart.html
