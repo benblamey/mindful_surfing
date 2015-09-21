@@ -4,7 +4,7 @@ publish to store
     
 icon / branding
 license
-tabs / spaces
+
 
 
 
