@@ -22,5 +22,7 @@ Note
 This extension is supposed to be annoying -- the point of it is to distract you from mindless surfing!
 
 
+Icon credit to: http://www.cliparthut.com/xmas-candle-clipart.html
+
 Ben Blamey
 (myfirstname)@benblamey.com

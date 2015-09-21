@@ -1,12 +1,6 @@
 ﻿github
 publish to store
 
-    
-icon / branding
-license
-
-
-
 
 
 NICE TO HAVE
