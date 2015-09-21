@@ -109,7 +109,7 @@ function alarm_fired(alarm) {
 				console.log(windows);
 				for (i = 0; i < windows.length; i++) {
 					console.log('Closing window ' + windows[i].id + '...');
-					//chrome.windows.remove(windows[i].id);
+					chrome.windows.remove(windows[i].id);
 				}
 				
 			});
