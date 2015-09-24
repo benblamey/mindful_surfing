@@ -113,8 +113,8 @@ function runCallbackIfActive(callbackIfActive) {
                 }
                 console.log(tab.url);
                 // simple substring match
-                for (k = 0; k < options.whitlist.length; k++) {
-                    whiteUrl = options.whitlist[k];
+                for (k = 0; k < options.whitelist.length; k++) {
+                    whiteUrl = options.whitelist[k];
                     if (tab.url.indexOf(whiteUrl) > -1 ) {
                         active = false;
                         console.log("White List Match Found!");
@@ -125,7 +125,7 @@ function runCallbackIfActive(callbackIfActive) {
         }
         
         if (active) {
-            callback(callbackIfActive);
+            callbackIfActive();
         } else {
             console.log('whitelist match -- not running callback');
         }

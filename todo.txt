@@ -4,6 +4,12 @@
 
 NICE TO HAVE
 ------------
+donation facility
+
+open page instead of showing notification
+only count time when window is active
+note: notifications put in system try when window not actie (or notification simply not shown/seen when window not actie)
+
 double-check that all chrome API methods are being used asynchronously/properly
 shutdown should fire on an interval
 use local storage
